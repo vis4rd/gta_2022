@@ -1,0 +1,6 @@
+#Ignore cache
+Functions/__pycache__/*
+#Ignore created txt files
+*.txt
+
+.vscode/*
