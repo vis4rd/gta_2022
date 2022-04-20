@@ -20,19 +20,25 @@ def write(Ms, Ls, Mi):
     with open("Mi.txt","w") as ms:
         ListW(ms,Mi)
 
-
+# Mi - macierz incydencji
 def Mi(matrix):
     print(" I AM MI")
     Ms=MiMs(matrix)
     Ls=MsLs(Ms)
     write(Ms,Ls,matrix)
+    DrawGraph(Ls)
 
+
+# Ls - lista sasiedztwa 
 def Ls(matrix):
     print(" I AM LS")
     Ms = LsMs(matrix)
     Mi = MsMi(Ms)
     write(Ms,matrix,Mi)
+    DrawGraph(Ls)
 
+
+# Ms - macierz sasiedztwa
 def Ms(matrix):
     print("I AM MS")
     Ls=MsLs(matrix)
@@ -42,18 +48,28 @@ def Ms(matrix):
 
 
 def recognize(matrix):
-    i = len(matrix)
-    j = len(matrix[0])
-    iequalsj = True
-    for tab in matrix:
-        if j != len(tab):
+    
+    #ilosc wierszy 
+    row_number = len(matrix)
+    #ilosc kolumn w wierszu
+    column_number = len(matrix[0])
+    
+ 
+
+    #petla sprawdzajaca ilosc elementow w wierszu
+    for single_row in matrix:
+
+        #jezeli nie jest prostokatna to jest to lista incydencji 
+        if column_number != len(single_row):
             Ls(matrix)
-            iequalsj = False
-            break
-        j=len(tab)
-    if i == j:
+            return
+
+    #jezeli kwadratowa to macierz sasiedztwa 
+    if row_number == column_number:
         Ms(matrix)
-    elif iequalsj==True:
+
+    #jezeli nie to macierz incydencji 
+    else:
         Mi(matrix)
 
         
