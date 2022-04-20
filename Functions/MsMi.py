@@ -1,3 +1,4 @@
+# Macierz sasiedztwa zamiana do macierzy incydencji
 def MsMi(matrix):
     root=0
     i=0

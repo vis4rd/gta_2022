@@ -1,3 +1,4 @@
+# Macierz incydencji zamiana do macierzy sasiedztwa 
 def MiMs(matrix):
 
     rows, cols = (len(matrix), len(matrix))
