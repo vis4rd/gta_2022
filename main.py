@@ -1,4 +1,4 @@
-from Functions.know_how import recognize
+from src.api.prj1.know_how import recognize
 
 with open('data_1.txt', 'r') as f:
 

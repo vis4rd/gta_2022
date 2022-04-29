@@ -1,6 +1,8 @@
-#Ignore cache
-Functions/__pycache__/*
-#Ignore created txt files
+# Cache
+__pycache__
+
+# Output txt files
 *.txt
 
+# VSCode configuration and cache
 .vscode/*

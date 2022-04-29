@@ -1,10 +1,9 @@
-import imp
-from xmlrpc.client import boolean
+# from xmlrpc.client import boolean
 from .MiMs import MiMs
 from .MsLs import MsLs
 from .LsMs import LsMs
 from .MsMi import MsMi
-from .drawG import DrawGraph
+from .draw_graph import DrawGraph
 
 def ListW(file, List):
     for r in List:
