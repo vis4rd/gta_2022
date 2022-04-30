@@ -6,3 +6,6 @@ __pycache__
 
 # VSCode configuration and cache
 .vscode/*
+
+# Logs
+logs/
