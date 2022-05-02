@@ -1,33 +1,34 @@
 # from xmlrpc.client import boolean
 import logging as log
 
-from .MiMs import MiMs
-from .MsLs import MsLs
-from .LsMs import LsMs
-from .MsMi import MsMi
+from .conversions import *
 from .draw_graph import DrawGraph
 from .write_to_file import *
 
+
 def _assume_incidence_matrix(inc_matrix): # IM
     log.info("Input assumed as incidence matrix")
-    adj_matrix = MiMs(inc_matrix)
-    adj_list = MsLs(adj_matrix)
+    adj_matrix = convert_inc_matrix_to_adj_matrix(inc_matrix)
+    adj_list = convert_adj_matrix_to_adj_list(adj_matrix)
     write_all_formats(adj_matrix, adj_list, inc_matrix)
     DrawGraph(adj_list)
+
 
 def _assume_adjacency_list(adj_list): # AL
     log.info("Input assumed as adjacency list")
-    adj_matrix = LsMs(adj_list)
-    inc_matrix = MsMi(adj_matrix)
+    adj_matrix = convert_adj_list_to_adj_matrix(adj_list)
+    inc_matrix = convert_adj_matrix_to_inc_matrix(adj_matrix)
     write_all_formats(adj_matrix, adj_list, inc_matrix)
     DrawGraph(adj_list)
 
+
 def _assume_adjacency_matrix(adj_matrix): # AM
     log.info("Input assumed as adjacency matrix")
-    adj_list = MsLs(adj_matrix)
-    inc_matrix = MsMi(adj_matrix)
+    adj_list = convert_adj_matrix_to_adj_list(adj_matrix)
+    inc_matrix = convert_adj_matrix_to_inc_matrix(adj_matrix)
     write_all_formats(adj_matrix, adj_list, inc_matrix)
     DrawGraph(adj_list)
+
 
 def parse_input(matrix):
     row_count = len(matrix)
