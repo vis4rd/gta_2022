@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 
 # rotation operation on array:
 # impl_RotateArray([1, 2, 3, 4, 5], 2, 5) = [3, 4, 5, 1, 2]
-def impl_RotateArray(array, step, size):
+def _RotateArray(array, step, size):
     array[:] = array[step:size] + array[0:step]
     return array
 
-def impl_ReverseArray(array):
+def _ReverseArray(array):
     return array[::-1]
 
 def DrawGraph(matrix):
@@ -20,8 +20,8 @@ def DrawGraph(matrix):
 
     node_count = len(matrix)
     nodes = [i for i in range(1, node_count+1)]
-    nodes = impl_ReverseArray(nodes)
-    nodes = impl_RotateArray(nodes, -(int(node_count/4) + 1), node_count) # start from north instead of east
+    nodes = _ReverseArray(nodes)
+    nodes = _RotateArray(nodes, -(int(node_count/4) + 1), node_count) # start from north instead of east
 
     edges = [ ]
     current_node = 1
