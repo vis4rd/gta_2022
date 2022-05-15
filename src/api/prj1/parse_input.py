@@ -1,8 +1,6 @@
-# from xmlrpc.client import boolean
 import logging as log
 
 from .conversions import *
-from .draw_graph import DrawGraph
 from .write_to_file import *
 
 
@@ -11,7 +9,7 @@ def _assume_incidence_matrix(inc_matrix): # IM
     adj_matrix = convert_inc_matrix_to_adj_matrix(inc_matrix)
     adj_list = convert_adj_matrix_to_adj_list(adj_matrix)
     write_all_formats(adj_matrix, adj_list, inc_matrix)
-    DrawGraph(adj_list)
+    return adj_list
 
 
 def _assume_adjacency_list(adj_list): # AL
@@ -19,7 +17,7 @@ def _assume_adjacency_list(adj_list): # AL
     adj_matrix = convert_adj_list_to_adj_matrix(adj_list)
     inc_matrix = convert_adj_matrix_to_inc_matrix(adj_matrix)
     write_all_formats(adj_matrix, adj_list, inc_matrix)
-    DrawGraph(adj_list)
+    return adj_list
 
 
 def _assume_adjacency_matrix(adj_matrix): # AM
@@ -27,7 +25,7 @@ def _assume_adjacency_matrix(adj_matrix): # AM
     adj_list = convert_adj_matrix_to_adj_list(adj_matrix)
     inc_matrix = convert_adj_matrix_to_inc_matrix(adj_matrix)
     write_all_formats(adj_matrix, adj_list, inc_matrix)
-    DrawGraph(adj_list)
+    return adj_list
 
 
 def parse_input(matrix):
@@ -36,10 +34,9 @@ def parse_input(matrix):
 
     for row in matrix: # check the element count in the row
         if column_count != len(row): # if not rectangular matrix
-            _assume_adjacency_list(matrix)
-            return
+            return _assume_adjacency_list(matrix)
 
     if row_count == column_count: # if the matrix is rectangular
-        _assume_adjacency_matrix(matrix)
+        return _assume_adjacency_matrix(matrix)
     else:
-        _assume_incidence_matrix(matrix)
+        return _assume_incidence_matrix(matrix)

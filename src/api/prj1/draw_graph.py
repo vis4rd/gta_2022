@@ -3,15 +3,15 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 # rotation operation on array:
-# impl_RotateArray([1, 2, 3, 4, 5], 2, 5) = [3, 4, 5, 1, 2]
-def _RotateArray(array, step, size):
+# _rotate_array([1, 2, 3, 4, 5], 2, 5) = [3, 4, 5, 1, 2]
+def _rotate_array(array, step, size):
     array[:] = array[step:size] + array[0:step]
     return array
 
-def _ReverseArray(array):
+def _reverse_array(array):
     return array[::-1]
 
-def DrawGraph(matrix):
+def draw_graph(matrix):
     # Order of nodes depends on order of them in the array, ThErE iS nO oThEr WaY.
     # Firstly, networkx supports only counter-clockwise order of drawing (very sad times),
     #     so the order in the array has to be reversed.
@@ -20,8 +20,8 @@ def DrawGraph(matrix):
 
     node_count = len(matrix)
     nodes = [i for i in range(1, node_count+1)]
-    nodes = _ReverseArray(nodes)
-    nodes = _RotateArray(nodes, -(int(node_count/4) + 1), node_count) # start from north instead of east
+    nodes = _reverse_array(nodes)
+    nodes = _rotate_array(nodes, -(int(node_count/4) + 1), node_count) # start from north instead of east
 
     edges = [ ]
     current_node = 1
