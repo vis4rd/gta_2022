@@ -1,12 +1,13 @@
 import logging as log
 from os import mkdir
 
-from src.api.prj1.parse_input import parse_input
+import src.exercises.project1 as prj1
 
 def main():
-    with open('data_1.txt', 'r') as f:
-        l = [[int(num) for num in line.split(' ')] for line in f]
-        parse_input(l)
+    prj1.task1()
+    # prj1.task2()
+    # prj1.task3()
+
 
 def prepare():
     # create logs directory if does not exist already

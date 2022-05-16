@@ -60,9 +60,15 @@ def convert_inc_matrix_to_adj_matrix(matrix):
 def convert_adj_list_to_adj_matrix(list):
     rows, cols = (len(list), len(list))
     adj_matrix = [[0 for i in range(cols)] for j in range(rows)]
-    for row, j in (list, range(rows)): 
+    j = 0
+    for row in list: 
         for neighbor_index in row: # obtain subsequent neighbor indices from the list
             adj_matrix[j][neighbor_index-1] = 1
         j += 1
 
     return adj_matrix
+
+
+def convert_adj_list_to_inc_matrix(list):
+    adj_matrix = convert_adj_list_to_adj_matrix(list)
+    return convert_adj_matrix_to_inc_matrix(adj_matrix)
