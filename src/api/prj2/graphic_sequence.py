@@ -103,40 +103,44 @@ def is_graphic_sequence(input_seq) -> bool:
         seq = seq[::-1]  # reverse
 
 
-def generate_simple_graph_with_graphic_sequence(gseq, swap_count = 0):
+def generate_simple_graph_with_graphic_sequence(gseq, swap_count):
     adjacency_list = generate_with_graphic_sequence(gseq)
-    log.debug(adjacency_list)
-    if len(gseq) < 4:
-        return adjacency_list
-    
-    node_count = len(adjacency_list)
+    log.debug(f"Start: Adjacency list = {adjacency_list}")
 
-    for swap_iter in range(swap_count):
-        log.info(f"Swapping edges, iteration {swap_iter}")
+    for ii in range(swap_count):
+        log.debug(f"Swap iteration {ii}")
+        while True:
+            log.debug(f"Adjacency list = {adjacency_list}")
+            x1, y1 = random.sample(range(1, len(adjacency_list)), k=2)
+            log.debug(f"From {range(len(adjacency_list))} picked elements x1={x1} and y1={y1}")
 
-        i = random.randint(1, node_count)
-        j = adjacency_list[i-1][0]
-        k = random.randint(1, node_count)
-        while k == j:
-            k = random.randint(1, node_count)
-        l = adjacency_list[k-1][0]
-        for el in adjacency_list[k-1]:
-            l = el
-            if l != i:
-                break
+            if (y1 not in adjacency_list[x1-1]) and (len(adjacency_list[x1-1]) > 0) and (len(adjacency_list[y1-1]) > 0):
+                x2 = random.sample([vertex for vertex in adjacency_list[x1-1] if vertex != x1], k=1)[0]
+                y2 = random.sample([vertex for vertex in adjacency_list[y1-1] if vertex != y1], k=1)[0]
+                log.debug(f"From {range(len(adjacency_list))} picked elements x2={x2} and y2={y2}")
 
-        log.debug(f"i = {i}, j = {j}, k = {k}, l = {l}")
-        log.debug(adjacency_list)
-
-        adjacency_list[i-1].remove(j)
-        adjacency_list[j-1].remove(i)
-        adjacency_list[k-1].remove(l)
-        adjacency_list[l-1].remove(k)
-
-        adjacency_list[i-1].append(l)
-        adjacency_list[j-1].append(k)
-        adjacency_list[k-1].append(j)
-        adjacency_list[l-1].append(i)
+                if (x2 == y2) or (y2 in adjacency_list[x2-1]) and ((x2 in adjacency_list[y1-1]) or (y2 in adjacency_list[x1-1])):
+                    pass
+                else:
+                    log.debug(f"Removing {x2} from {adjacency_list[x1-1]}")
+                    log.debug(f"Removing {x1} from {adjacency_list[x2-1]}")
+                    log.debug(f"Removing {y2} from {adjacency_list[y1-1]}")
+                    log.debug(f"Removing {y1} from {adjacency_list[y2-1]}")
+                    adjacency_list[x1-1].remove(x2)
+                    adjacency_list[x2-1].remove(x1)
+                    adjacency_list[y1-1].remove(y2)
+                    adjacency_list[y2-1].remove(y1)
+                    if x2 not in adjacency_list[y2-1]:
+                        adjacency_list[x1-1].append(y1)
+                        adjacency_list[y1-1].append(x1)
+                        adjacency_list[x2-1].append(y2)
+                        adjacency_list[y2-1].append(x2)
+                    else:
+                        adjacency_list[x1-1].append(y2)
+                        adjacency_list[y2-1].append(x1)
+                        adjacency_list[x2-1].append(y1)
+                        adjacency_list[y1-1].append(x2)
+                    break
 
     return adjacency_list
 
