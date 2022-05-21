@@ -40,6 +40,7 @@ def generate_with_graphic_sequence(input_gseq):
         skip = 0
         edge = 0
         runs = gseq[max]
+        dirty_hack_guard = -1
         while edge < runs:
             log.debug(f"edge = {edge}, skip = {skip}")
             target = ((max+1) + edge + skip) % len(gseq)
@@ -49,8 +50,16 @@ def generate_with_graphic_sequence(input_gseq):
                 temp = gseq[max]
                 gseq[max] = 0
                 target = _find_max_index(gseq)
+                dirty_hack_guard = target
                 gseq[max] = temp
                 log.debug(f"Overriding target = {target}")
+            elif target == dirty_hack_guard:
+                log.debug(f"target = {target} guarded by dirty hack, SKIPPING")
+                edge -= 1
+                skip += 1
+                gseq[max] += 1
+                gseq[target] += 1
+                continue
 
             if gseq[target] > 0:
                 log.debug(f"gseq[target] = {gseq[target]} > 0")
@@ -63,6 +72,7 @@ def generate_with_graphic_sequence(input_gseq):
                 edge -= 1
                 skip += 1
             edge += 1
+            log.debug(f"adjacency_list = {adjacency_list}")
 
     log.debug(f"adjacency_list = {adjacency_list}")
     return adjacency_list
