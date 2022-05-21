@@ -1,49 +1,70 @@
 import logging as log
 import random
-from re import I
 
-# Assumes that the input is a graphic sequence, returns adjacency list
+
+def _find_max_index(list):
+    max = -1;
+    max_index = -1
+
+    for iter in range(len(list)):
+        if list[iter] > max:
+            max = list[iter]
+            max_index = iter
+    
+    return max_index
+
+
+def _is_all_zero(list) -> bool:
+    for el in list:
+        if el != 0:
+            return False
+    else:
+        return True
+
+
 def generate_with_graphic_sequence(input_gseq):
+    if not is_graphic_sequence(input_gseq):
+        log.error("Given degree sequence is not a graphic sequence!")
+        return [[] for i in range(len(input_gseq))]
+
     gseq = input_gseq.copy()
     log.info(gseq)
 
     adjacency_list = [[] for i in range(len(gseq))]
 
-    i = 0
-    while True:
-        if (i < 0) or ((gseq[i] == 0) and (i == len(gseq)-1)):
-            log.debug("Used all possibilities, breaking the loop")
-            break
-
-        log.debug("Next iteration")
+    while not _is_all_zero(gseq):
+        log.debug("==== NEXT ITERATION ====")
         log.debug(gseq)
+        max = _find_max_index(gseq)
+        log.debug(f"max = {max}")
+        skip = 0
+        edge = 0
+        runs = gseq[max]
+        while edge < runs:
+            log.debug(f"edge = {edge}, skip = {skip}")
+            target = ((max+1) + edge + skip) % len(gseq)
+            log.debug(f"(max+1+edge+skip)%{len(gseq)} = {((max+1) + edge + skip)}%{len(gseq)} = {target}")
 
-        # Find the index of greatest value
-        max_val = -1
-        max_index = -1
-        second_max_index = -1
-        for val in range(len(gseq)-1):
-            if (gseq[val] > max_val) and (gseq[val] > 0):
-                max_val = gseq[val]
-                second_max_index = max_index
-                max_index = val
-        i = max_index
-        if i < 0:
-            continue
+            if edge == 0: # dirty hack, do not try to understand this
+                temp = gseq[max]
+                gseq[max] = 0
+                target = _find_max_index(gseq)
+                gseq[max] = temp
+                log.debug(f"Overriding target = {target}")
 
-        log.debug(f"i = {i}, gseq[i] = {gseq[i]}")
+            if gseq[target] > 0:
+                log.debug(f"gseq[target] = {gseq[target]} > 0")
+                adjacency_list[max].append(target+1)
+                adjacency_list[target].append(max+1)
+                gseq[target] -= 1
+                gseq[max] -= 1
+            else:
+                log.debug(f"gseq[target] = {gseq[target]} <= 0, SKIPPING")
+                edge -= 1
+                skip += 1
+            edge += 1
 
-        if gseq[i] > 0:
-            neighbor = second_max_index
-            while (neighbor < 0) or (gseq[neighbor] < 1) or (neighbor == i):
-                neighbor = random.randint(0, len(gseq)-1)
-                log.debug(f"neighbor = {neighbor}")
-            log.debug(f"gseq[{i}] > 0, neighbor = {neighbor}")
-            adjacency_list[i].append(neighbor+1)
-            adjacency_list[neighbor].append(i+1)
-            gseq[i] -= 1
-            gseq[neighbor] -= 1
-
+    log.debug(f"adjacency_list = {adjacency_list}")
     return adjacency_list
 
 
@@ -103,49 +124,61 @@ def is_graphic_sequence(input_seq) -> bool:
         seq = seq[::-1]  # reverse
 
 
+def _edge_count(adj_list):
+    summ = 0
+    for node in adj_list:
+        summ += len(node)
+    log.debug(f"Sum = {summ}")
+    return summ
+
+
+def _max_edge_count(adj_list):
+    return len(adj_list) * (len(adj_list)+1) / 2
+
+
 def generate_simple_graph_with_graphic_sequence(gseq, swap_count):
+    if not is_graphic_sequence(gseq):
+        log.error("Given degree sequence is not a graphic sequence!")
+        return [[] for i in range(len(gseq))]
+
     adjacency_list = generate_with_graphic_sequence(gseq)
     log.debug(f"Start: Adjacency list = {adjacency_list}")
 
-    for ii in range(swap_count):
-        log.debug(f"Swap iteration {ii}")
+    if _edge_count(adjacency_list) >= _max_edge_count(adjacency_list)-2:
+        log.warn(f"No suitable candidate edges to swap")
+        return adjacency_list
+
+    for _ in range(swap_count):
+        log.debug("=== NEXT SWAP ===")
         while True:
-            log.debug(f"Adjacency list = {adjacency_list}")
-            x1, y1 = random.sample(range(1, len(adjacency_list)), k=2)
-            log.debug(f"From {range(len(adjacency_list))} picked elements x1={x1} and y1={y1}")
+            x1, y1 = random.sample(list(range(1, len(adjacency_list)+1)), k=2)
+            log.debug(f"From {list(range(1, len(adjacency_list)+1))} picked elements x1={x1} and y1={y1}")
 
             if (y1 not in adjacency_list[x1-1]) and (len(adjacency_list[x1-1]) > 0) and (len(adjacency_list[y1-1]) > 0):
-                x2 = random.sample([vertex for vertex in adjacency_list[x1-1] if vertex != x1], k=1)[0]
-                y2 = random.sample([vertex for vertex in adjacency_list[y1-1] if vertex != y1], k=1)[0]
-                log.debug(f"From {range(len(adjacency_list))} picked elements x2={x2} and y2={y2}")
+                x2 = random.sample([node for node in adjacency_list[x1-1] if node != x1], k=1)[0]
+                y2 = random.sample([node for node in adjacency_list[y1-1] if node != y1], k=1)[0]
+                log.debug(f"From {[node for node in adjacency_list[x1-1] if node != x1]} picked x2={x2}")
+                log.debug(f"From {[node for node in adjacency_list[y1-1] if node != y1]} picked y2={y2}")
 
                 if (x2 == y2) or (y2 in adjacency_list[x2-1]) and ((x2 in adjacency_list[y1-1]) or (y2 in adjacency_list[x1-1])):
                     pass
                 else:
-                    log.debug(f"Removing {x2} from {adjacency_list[x1-1]}")
-                    log.debug(f"Removing {x1} from {adjacency_list[x2-1]}")
-                    log.debug(f"Removing {y2} from {adjacency_list[y1-1]}")
-                    log.debug(f"Removing {y1} from {adjacency_list[y2-1]}")
                     adjacency_list[x1-1].remove(x2)
                     adjacency_list[x2-1].remove(x1)
                     adjacency_list[y1-1].remove(y2)
                     adjacency_list[y2-1].remove(y1)
+
                     if x2 not in adjacency_list[y2-1]:
-                        adjacency_list[x1-1].append(y1)
-                        adjacency_list[y1-1].append(x1)
-                        adjacency_list[x2-1].append(y2)
-                        adjacency_list[y2-1].append(x2)
-                    else:
-                        adjacency_list[x1-1].append(y2)
-                        adjacency_list[y2-1].append(x1)
-                        adjacency_list[x2-1].append(y1)
-                        adjacency_list[y1-1].append(x2)
+                        temp = y1
+                        y1 = y2
+                        y2 = temp
+                    
+                    adjacency_list[x1-1].append(y1)
+                    adjacency_list[y1-1].append(x1)
+                    adjacency_list[x2-1].append(y2)
+                    adjacency_list[y2-1].append(x2)
                     break
 
-    return adjacency_list
+        log.debug(f"Adjacency list = {adjacency_list}")
 
-def _has_edge(adj_list, head, tail):
-    for el in adj_list[head]:
-        if el == tail:
-            return True
-    return False
+    return adjacency_list
