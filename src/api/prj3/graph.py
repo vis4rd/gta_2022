@@ -1,6 +1,19 @@
 from cmath import inf
+from turtle import distance
+
 import networkx as nx
 import numpy as np
+<<<<<<< HEAD
+=======
+
+
+import random
+from api.prj1.generate_random_graph import generate_with_edge_count
+from edge import *
+from node import *
+from functions import node_with_smallest_d, print_node_set
+
+>>>>>>> 1e696cf (3.3 completed)
 import matplotlib.pyplot as plt
 import random
 
@@ -140,6 +153,16 @@ class Graph:
 
         self.complete_from_adj_list(generate_with_edge_count(nodes, edges))
 
+<<<<<<< HEAD
+=======
+    def generate_random_graph(self,nodes_number):
+        nodes = nodes_number
+
+        edges = random.randint(nodes-1,int (nodes* (nodes - 1)/2 ))
+
+        self.complete_from_adj_list(generate_with_edge_count(nodes,edges))
+
+>>>>>>> 1e696cf (3.3 completed)
     def generate_random_connected_graph(self, nodes_number):
         self.generate_random_graph(nodes_number)
         while not self.is_connected():
@@ -161,8 +184,15 @@ class Graph:
         nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
         plt.show()
 
+<<<<<<< HEAD
     def dijkstra_algorithm(self, d, p, s, flag=True):
         self.prepare_p_d(d, p, s)
+=======
+    #zadanie 2
+
+    def dijkstra_algorithm(self,d,p,s, flag = True):
+        self.prepare_p_d(d,p,s)
+>>>>>>> 1e696cf (3.3 completed)
 
         S = []
         while len(S) != len(self.nodes):
@@ -170,9 +200,15 @@ class Graph:
             S.append(u)
             for u_neighbour in self.nodes[u].neighbours:
                 if u_neighbour not in S:
+<<<<<<< HEAD
                     self.relax(u, u_neighbour, d, p)
         if flag:
             print_node_set(S, d, p)
+=======
+                    self.relax(u,u_neighbour,d,p)
+        if flag:
+            print_node_set(S,d,p)
+>>>>>>> 1e696cf (3.3 completed)
 
     def prepare_p_d(self, d, p, s):
         for node in range(len(self.nodes)):
@@ -180,6 +216,7 @@ class Graph:
             p.append(None)
         d[s] = 0
 
+<<<<<<< HEAD
     def relax(self, u, u_neighbour, d, p):
         t_edges = [(edge.begin, edge.end) for edge in self.edges]
         try:
@@ -187,17 +224,35 @@ class Graph:
 
         except ValueError:
             i = t_edges.index((u_neighbour, u))
+=======
+    def relax(self, u, u_neighbour,d,p):
+
+        t_edges = [(edge.begin, edge.end)for edge in self.edges ]
+        try: 
+            i = t_edges.index((u,u_neighbour))
+        
+        except ValueError:
+            i = t_edges.index((u_neighbour,u))
+>>>>>>> 1e696cf (3.3 completed)
 
         weight = self.weight[i]
 
         if d[u_neighbour] > (d[u] + weight):
+<<<<<<< HEAD
             d[u_neighbour] = d[u] + weight
             p[u_neighbour] = u
 
+=======
+            d[u_neighbour] = (d[u] + weight)
+            p[u_neighbour] = u  
+
+    #zadanie 3
+>>>>>>> 1e696cf (3.3 completed)
     def calculate_distance_matrix(self, distnace_matrix):
         for i in range(len(self.nodes)):
             d = []
             p = []
+<<<<<<< HEAD
             self.dijkstra_algorithm(d, p, i, False)
             # distnace_matrix = np.vstack([distnace_matrix, d])
             distnace_matrix[i] = d
@@ -254,3 +309,10 @@ class Graph:
         for node in self.nodes:
             if node.number == number:
                 return node
+=======
+            self.dijkstra_algorithm(p, d, i,False)
+            print(d)
+            distnace_matrix = np.vstack([distnace_matrix, d])
+
+  
+>>>>>>> 1e696cf (3.3 completed)
