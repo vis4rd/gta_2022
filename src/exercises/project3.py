@@ -10,26 +10,25 @@ import numpy as np
 
 graph = Graph()
 
-def task1():
+def task1_2():
     print ("3.1: Generowanie spojnego grafu losowego")
-    create_and_draw_connected_graph_with_weight(graph,4,8)
+    print ("3.2: Algorytm Dijkstry do znajdowania najkrotszych sciezek")
+    #create_and_draw_connected_graph_with_weight_dijkstra(graph, nodes_number, start_node_for_dijkstra)
+    create_and_draw_connected_graph_with_weight_dijkstra(graph,7,1)
+    task3(graph,7)
 
-
-def task2():
-   print ("3.2: Algorytm Dijkstry do znajdowania najkrotszych sciezek")
-   create_and_draw_connected_graph_with_weight(graph,4,8)
+# def task2():
    
-   s=random.randint(0,len(graph.nodes)-1)
-   d = [], p = []
+#    create_and_draw_connected_graph_with_weight_dijkstra(graph,4,8)
    
-   graph.dijkstra_algorithm(p,d,s)
+   
 
-def task3():
+def task3(graph, node_number):
     print("3.3: Macierz odleglosci miedzy wszystkimi wierzcholkami")
-    create_and_draw_connected_graph_with_weight(graph,4,8)
-    distance_matrix = {}
+    #create_and_draw_connected_graph_with_weight(graph,4,8)
+    distance_matrix = np.empty([node_number, node_number])
     graph.calculate_distance_matrix(distance_matrix)
-    np.print_matrix(distance_matrix)
+   # distance_matrix
 
 def task4():
     print("3.4: Wyznaczenie centrum grafu")

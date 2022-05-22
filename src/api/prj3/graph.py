@@ -1,6 +1,9 @@
 
 from cmath import inf
+from turtle import distance
+
 import networkx as nx
+import numpy as np
 
 
 import random
@@ -138,18 +141,18 @@ class Graph:
 
 
 
-    def generate_random_graph(self,min,max):
-        nodes = random.randint(min,max)
+    def generate_random_graph(self,nodes_number):
+        nodes = nodes_number
 
         edges = random.randint(nodes-1,int (nodes* (nodes - 1)/2 ))
 
         self.complete_from_adj_list(generate_with_edge_count(nodes,edges))
 
-    def generate_random_connected_graph(self, min, max):
-        self.generate_random_graph(min,max)
+    def generate_random_connected_graph(self, nodes_number):
+        self.generate_random_graph(nodes_number)
         while not self.is_connected():
             self.delete_everything()
-            self.generate_random_graph(min,max)
+            self.generate_random_graph(nodes_number)
 
     def add_random_weight(self):
         self.weight= [random.randint(1,10) for i in range(len(self.edges))]
@@ -168,7 +171,7 @@ class Graph:
 
     #zadanie 2
 
-    def dijkstra_algorithm(self,d,p,s):
+    def dijkstra_algorithm(self,d,p,s, flag = True):
         self.prepare_p_d(d,p,s)
 
         S = []
@@ -178,7 +181,8 @@ class Graph:
             for u_neighbour in self.nodes[u].neighbours:
                 if u_neighbour not in S:
                     self.relax(u,u_neighbour,d,p)
-        print_node_set(S,d,p)
+        if flag:
+            print_node_set(S,d,p)
 
     def prepare_p_d(self,d,p,s):
         for node in range(len(self.nodes)):
@@ -187,4 +191,27 @@ class Graph:
         d[s] = 0
 
     def relax(self, u, u_neighbour,d,p):
+
+        t_edges = [(edge.begin, edge.end)for edge in self.edges ]
+        try: 
+            i = t_edges.index((u,u_neighbour))
+        
+        except ValueError:
+            i = t_edges.index((u_neighbour,u))
+
+        weight = self.weight[i]
+
+        if d[u_neighbour] > (d[u] + weight):
+            d[u_neighbour] = (d[u] + weight)
+            p[u_neighbour] = u  
+
+    #zadanie 3
+    def calculate_distance_matrix(self, distnace_matrix):
+        for i in range(len(self.nodes)):
+            d = []
+            p = []
+            self.dijkstra_algorithm(p, d, i,False)
+            print(d)
+            distnace_matrix = np.vstack([distnace_matrix, d])
+
   

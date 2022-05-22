@@ -22,8 +22,7 @@ def main():
     # prj2.task5()
     # prj2.task6()
 
-    prj3.task1()
-    prj3.task2()
+    prj3.task1_2()
     prj3.task3()
     prj3.task4()
     prj3.task5()
