@@ -4,6 +4,7 @@ from src.api.prj2.graphic_sequence import *
 from src.api.prj2.maximal_connected_subgraph import maximal_connected_subgraph, all_connected_subgraphs
 from src.api.prj2.euler_graph import generate_euler_graph, find_eulerian_path
 from src.api.prj2.k_regular_graph import generate_k_regular_graph
+from src.api.prj2.hamilton_graph import find_hamilton_cycle
 
 def task1():
     sequence = []
@@ -46,9 +47,17 @@ def task4():
     adj_list = generate_euler_graph(5)
     euler_cycle = find_eulerian_path(adj_list)
 
+    print(f"eulerian cycle = {euler_cycle}")
     draw_graph(adj_list)
 
 def task5():
     adj_list = generate_k_regular_graph(20, 10)
 
+    draw_graph(adj_list)
+
+def task6():
+    adj_list = generate_euler_graph(8)
+    hamilton_cycle = find_hamilton_cycle(adj_list)
+
+    print(f"hamilton cycle = {hamilton_cycle}")
     draw_graph(adj_list)

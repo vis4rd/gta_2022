@@ -1,10 +1,7 @@
-import random
 import logging as log
 
-from src.api.prj1.draw_graph import draw_graph
 from src.api.prj1.generate_random_graph import generate_with_probability
 from src.api.prj1.conversions import convert_adj_list_to_adj_matrix
-from src.api.prj2.graphic_sequence import generate_with_graphic_sequence, _edge_count
 
 def generate_euler_graph(node_count):
     if node_count < 3:
@@ -66,4 +63,4 @@ def find_eulerian_path(adj_list):
                     break
     euler_path.append(current+1)
 
-    print(f"eulerian path = {euler_path}")
+    return euler_path
