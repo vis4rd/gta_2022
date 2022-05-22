@@ -38,43 +38,46 @@ def generate_with_graphic_sequence(input_gseq):
         max = _find_max_index(gseq)
         log.debug(f"max = {max}")
         skip = 0
-        edge = 0
-        runs = gseq[max]
+        edge_index = 0
+        node_degree = gseq[max]
         dirty_hack_guard = -1
-        while edge < runs:
-            log.debug(f"edge = {edge}, skip = {skip}")
-            target = ((max+1) + edge + skip) % len(gseq)
-            log.debug(f"(max+1+edge+skip)%{len(gseq)} = {((max+1) + edge + skip)}%{len(gseq)} = {target}")
+        while edge_index < node_degree:
+            log.debug(f"edge_index = {edge_index}, skip = {skip}")
+            target = ((max+1) + edge_index + skip) % len(gseq)
+            log.debug(f"target = (max+1+edge_index+skip)%{len(gseq)} = {((max+1) + edge_index + skip)}%{len(gseq)} = {target}")
 
-            if edge == 0: # dirty hack, do not try to understand this
+            if edge_index == 0: # find second max value's index
                 temp = gseq[max]
                 gseq[max] = 0
                 target = _find_max_index(gseq)
                 dirty_hack_guard = target
                 gseq[max] = temp
                 log.debug(f"Overriding target = {target}")
-            elif target == dirty_hack_guard:
+            
+            if (edge_index != 0) and (target == dirty_hack_guard):
                 log.debug(f"target = {target} guarded by dirty hack, SKIPPING")
-                edge -= 1
                 skip += 1
-                gseq[max] += 1
-                gseq[target] += 1
                 continue
 
-            if gseq[target] > 0:
-                log.debug(f"gseq[target] = {gseq[target]} > 0")
-                adjacency_list[max].append(target+1)
-                adjacency_list[target].append(max+1)
-                gseq[target] -= 1
-                gseq[max] -= 1
-            else:
-                log.debug(f"gseq[target] = {gseq[target]} <= 0, SKIPPING")
-                edge -= 1
+            if target == max:
+                log.debug(f"target == max, SKIPPING")
                 skip += 1
-            edge += 1
+                continue
+
+            if gseq[target] <= 0:
+                log.debug(f"gseq[target] = {gseq[target]} <= 0, SKIPPING")
+                skip += 1
+                continue
+
+            log.debug(f"gseq[target] = {gseq[target]} > 0")
+            adjacency_list[max].append(target+1)
+            adjacency_list[target].append(max+1)
+            gseq[target] -= 1
+            gseq[max] -= 1
+
+            edge_index += 1
             log.debug(f"adjacency_list = {adjacency_list}")
 
-    log.debug(f"adjacency_list = {adjacency_list}")
     return adjacency_list
 
 

@@ -32,15 +32,13 @@ def task2():
 def task3():
     adj_list = generate_with_edge_count(10, 5)
 
-    mcs = maximal_connected_subgraph(adj_list)
-    print(mcs)
-
-    # PRINT ALL SUBGRAPHS FOR SHOWCASE
-    # all = all_connected_subgraphs(adj_list)
-    # for row in all:
-    #     for el in row:
-    #         print(el, end=" ")
-    #     print()
+    all = all_connected_subgraphs(adj_list)
+    for row in range(len(all)):
+        print(f"{row+1})", end=" ")
+        for el in all[row]:
+            print(el, end=" ")
+        print()
+    print(f"Greatest connected subgraph = {maximal_connected_subgraph(adj_list)}")
 
     draw_graph(adj_list)
 
@@ -50,6 +48,6 @@ def task4():
     draw_graph(adj_list)
 
 def task5():
-    adj_list = generate_k_regular_graph(20, 6)
+    adj_list = generate_k_regular_graph(21, 10)
 
     draw_graph(adj_list)
