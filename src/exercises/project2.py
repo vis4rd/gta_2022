@@ -2,7 +2,7 @@ from src.api.prj1.draw_graph import draw_graph
 from src.api.prj1.generate_random_graph import generate_with_edge_count
 from src.api.prj2.graphic_sequence import *
 from src.api.prj2.maximal_connected_subgraph import maximal_connected_subgraph, all_connected_subgraphs
-from src.api.prj2.euler_graph import generate_euler_graph
+from src.api.prj2.euler_graph import generate_euler_graph, find_eulerian_path
 from src.api.prj2.k_regular_graph import generate_k_regular_graph
 
 def task1():
@@ -44,10 +44,11 @@ def task3():
 
 def task4():
     adj_list = generate_euler_graph(5)
+    euler_cycle = find_eulerian_path(adj_list)
 
     draw_graph(adj_list)
 
 def task5():
-    adj_list = generate_k_regular_graph(21, 10)
+    adj_list = generate_k_regular_graph(20, 10)
 
     draw_graph(adj_list)
