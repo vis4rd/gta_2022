@@ -1,3 +1,4 @@
+from cmath import inf
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
@@ -92,6 +93,7 @@ class Graph:
         self.edges = []
         self.weight = []
 
+    # zadanie 1
     def is_connected(self):
         max_count = self.largest_component()
         return max_count == len(self.nodes)

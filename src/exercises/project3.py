@@ -4,6 +4,8 @@ from src.api.prj3.graph import Graph
 import random
 import numpy as np
 
+graph = Graph()
+
 
 def task1_2():
     graph = Graph()
