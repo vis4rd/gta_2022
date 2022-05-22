@@ -22,6 +22,16 @@ def create_and_draw_connected_graph_with_weight_dijkstra(graph, nodes_number, s)
 
     graph.draw_graph_with_weight()
 
+def graph_center(distance_matrix):
+    temp = np.sum(distance_matrix,axis=0)
+    print("Centrum = ",np.argmin(temp),"(suma odleglosci: ",temp[np.argmin(temp)],")")
+
+
+def minimax(distance_matrix):
+    temp_minimax = np.amax(distance_matrix,axis=0)
+    index_minimax = np.argmin(temp_minimax,axis=0)
+    print("Centrum minimax = ", index_minimax,"(odleglosc od najdalszego: ",temp_minimax[index_minimax],")")
+
 def print_node_set(S,d,p):
     print (f'START: S = {S[0]}')
     
@@ -55,4 +65,3 @@ def node_with_smallest_d(S,d):
 
 
 
-    

@@ -1,5 +1,6 @@
 
 from cmath import inf
+from tabnanny import check
 from turtle import distance
 
 import networkx as nx
@@ -13,6 +14,8 @@ from node import *
 from functions import node_with_smallest_d, print_node_set
 
 import matplotlib.pyplot as plt
+
+from src.api.prj3 import edge
 
 class Graph: 
     def __init__(self, nodes=[],edges=[]):
@@ -211,7 +214,58 @@ class Graph:
             d = []
             p = []
             self.dijkstra_algorithm(p, d, i,False)
-            print(d)
+            
             distnace_matrix = np.vstack([distnace_matrix, d])
 
+
+    #zadanie 5
+    def prim_algorithm(self):
+        #tree with one node
+        T = [self.nodes[0]]
+        #others nodes
+        W = self.nodes[1:]
+
+        edges = []
+        #while W is not empty 
+        while W:
+            W_numbers = [node.number for node in W]
+            edge=[0,1]
+            weight = float('inf')
+            for selected_node in T:
+                temp = self.find_edge_to_new_nodes(W_numbers, selected_node)
+                if temp[1] < weight:
+                    edge = temp[0]
+                    weight = temp[1]
+
+            if edge[0] in W_numbers:
+                number=edge[0]
+            else:
+                number=edge[1]
+
+            node_to_move = self.find_node_using_number(number)
+            T.append(node_to_move)
+            W.remove(node_to_move)
+            edges.append(edge)
+
+        print("Minimum spanning tree: ", edges)
+
+    def find_edge_to_new_nodes(self, W_numbers, selected_node):
+        edge=[0,1]
+        weight = float('inf')
+
+        for i in range(len(self.edges)):
+            if ( (self.edges[i].begin == selected_node.number) or (self.edges[i].end == selected_node.number) ) and (self.edges[i].end in W_numbers):
+                if  weight >self.weight[i]:
+                    weight = self.weight[i]
+                    edge = [self.edges[i].begin, self.edges[i].end]
+
+        return edge, weight
+
+    def find_node_using_number(self,number):
+        for node in self.nodes:
+            if node.number == number:
+                return node
+
+
+        
   

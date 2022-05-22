@@ -28,16 +28,24 @@ def task3(graph, node_number):
     #create_and_draw_connected_graph_with_weight(graph,4,8)
     distance_matrix = np.empty([node_number, node_number])
     graph.calculate_distance_matrix(distance_matrix)
-   # distance_matrix
+    
+    print(distance_matrix)
+    task4(graph,node_number,distance_matrix)
+    # distance_matrix
 
-def task4():
+def task4(graph,node_number,distance_matrix):
     print("3.4: Wyznaczenie centrum grafu")
-    create_and_draw_connected_graph_with_weight(graph,4,8)
+    graph_center(distance_matrix)
+    minimax(distance_matrix)
+    graph.draw_graph_with_weight()
 
-def task5():
+    task5(graph)
+
+def task5(graph):
     print("3.5: Wyznaczenie minimalnego drzewa rozpinajacego")
-    create_and_draw_connected_graph_with_weight(graph,4,8)
-    graph.print_edges()
-    #minimum_spanning_tree(graph)
+    graph.prim_algorithm()
+    
+
+    
 
     
