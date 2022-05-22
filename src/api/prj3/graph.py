@@ -1,12 +1,15 @@
+
+from cmath import inf
 import networkx as nx
 
-from calendar import c
-from pickletools import read_uint1
-from random import random
-from api.prj1.generate_random_graph import generate_with_edge_count
-from edge import Edge
-from node import Node
 
+import random
+from api.prj1.generate_random_graph import generate_with_edge_count
+from edge import *
+from node import *
+from functions import node_with_smallest_d, print_node_set
+
+import matplotlib.pyplot as plt
 
 class Graph: 
     def __init__(self, nodes=[],edges=[]):
@@ -58,7 +61,7 @@ class Graph:
 
     def nodes_add (self, quantity):
         for i in range (quantity):
-            self.add_node(Node(i))
+            self.node_add(Node(i))
 
 
     #Neighbours
@@ -66,7 +69,7 @@ class Graph:
     def neighbour_add (self, index, neighbour):
         if (index==neighbour) or (neighbour in self.nodes[index].neighbours):
             return False
-        self.nodes[index].neigbours.append(neighbour)
+        self.nodes[index].neighbours.append(neighbour)
         return True
 
 
@@ -78,6 +81,7 @@ class Graph:
     #uzpelnianie grafu na podstawie listy 
     def complete_from_adj_list(self, adj_list):
         rows = len (adj_list)
+        self.nodes_add(rows)
         for i in range(rows):
             line = adj_list[i]
             for j in range(len(line)):
@@ -90,6 +94,8 @@ class Graph:
         self.edges = []
         self.weight = []
 
+
+    #zadanie 1
     def is_connected(self):
         max_count = self.largest_component()
         return max_count == len(self.nodes)
@@ -126,8 +132,8 @@ class Graph:
     def components_recursive(self, number, i , temp_component):
         for j in self.nodes[i].neighbours:
             if temp_component[j] == -1:
-                temp_component[j] == number
-                self.components_recursive(number, j ,temp_component)
+                temp_component[j] = number
+                self.components_recursive(number, j, temp_component)
 
 
 
@@ -153,4 +159,32 @@ class Graph:
         for node in self.nodes:
             G.add_node(node.number)
         for edge, weight in zip(self.edges, self.weight):
-            G.add_node(edge.begin, edge.end, weight=weight)
+            G.add_edge(edge.begin, edge.end, weight=weight)
+        pos=nx.spring_layout(G)
+        nx.draw_networkx(G,pos, with_labels=True, font_weight='bold')
+        labels = nx.get_edge_attributes(G,'weight')
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+        plt.show()
+
+    #zadanie 2
+
+    def dijkstra_algorithm(self,d,p,s):
+        self.prepare_p_d(d,p,s)
+
+        S = []
+        while len(S) != len(self.nodes):
+            u = node_with_smallest_d(S,d)
+            S.append(u)
+            for u_neighbour in self.nodes[u].neighbours:
+                if u_neighbour not in S:
+                    self.relax(u,u_neighbour,d,p)
+        print_node_set(S,d,p)
+
+    def prepare_p_d(self,d,p,s):
+        for node in range(len(self.nodes)):
+            d.append(float('inf'))
+            p.append(None)
+        d[s] = 0
+
+    def relax(self, u, u_neighbour,d,p):
+  
