@@ -34,12 +34,21 @@ def prepare(loglevel):
         pass
 
     # setup the config of the logger
+<<<<<<< HEAD
     log.basicConfig(
         filename='logs/runtime.log',
         encoding='utf-8',
         format='%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s | %(funcName)s() | %(message)s',
         datefmt='%Y/%m/%d | %H:%M:%S',
         level=loglevel.upper())
+=======
+    # log.basicConfig(
+    #     filename='logs/runtime.log',
+    #     encoding='utf-8',
+    #     format='%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s | %(funcName)s() | %(message)s',
+    #     datefmt='%Y/%m/%d | %H:%M:%S',
+    #     level='INFO')
+>>>>>>> 0609547 (3: Draw function in progress)
     log.info("Logger setup finished")
 
 if __name__ == "__main__":
