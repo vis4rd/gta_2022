@@ -213,9 +213,11 @@ class Graph:
         for i in range(len(self.nodes)):
             d = []
             p = []
-            self.dijkstra_algorithm(p, d, i,False)
+            self.dijkstra_algorithm(d, p, i,False)
             
-            distnace_matrix = np.vstack([distnace_matrix, d])
+          
+            # distnace_matrix = np.vstack([distnace_matrix, d])
+            distnace_matrix[i] = d
 
 
     #zadanie 5
