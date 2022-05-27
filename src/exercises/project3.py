@@ -14,12 +14,10 @@ def task1_2():
     print ("3.1: Generowanie spojnego grafu losowego")
     print ("3.2: Algorytm Dijkstry do znajdowania najkrotszych sciezek")
     #create_and_draw_connected_graph_with_weight_dijkstra(graph, nodes_number, start_node_for_dijkstra)
-    create_and_draw_connected_graph_with_weight_dijkstra(graph,7,1)
-    task3(graph,7)
+    create_and_draw_connected_graph_with_weight_dijkstra(graph,8,1)
+    task3(graph,8)
 
-# def task2():
-   
-#    create_and_draw_connected_graph_with_weight_dijkstra(graph,4,8)
+
    
    
 
@@ -37,13 +35,15 @@ def task4(graph,node_number,distance_matrix):
     print("3.4: Wyznaczenie centrum grafu")
     graph_center(distance_matrix)
     minimax(distance_matrix)
-    graph.draw_graph_with_weight()
+    
 
     task5(graph)
 
 def task5(graph):
     print("3.5: Wyznaczenie minimalnego drzewa rozpinajacego")
     graph.prim_algorithm()
+    graph.draw_graph_with_weight()
+   
     
 
     

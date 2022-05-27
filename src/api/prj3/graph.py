@@ -3,6 +3,7 @@ from cmath import inf
 from tabnanny import check
 from turtle import distance
 
+
 import networkx as nx
 import numpy as np
 
@@ -22,6 +23,14 @@ class Graph:
         self.nodes = [n for n in nodes]
         self.edges = [e for e in edges]
         self.weight = [0 for _e in edges]
+
+
+    def print_edges_with_weight(self):
+        print("Krawedzie wraz z waga:")
+        j=0
+        for i in self.edges:
+            print("[",i.begin, "-", i.end, "] - waga:", self.weight[j])
+            j=j+1
 
     #Edges
     def edge_add (self, begin, end):
@@ -235,9 +244,9 @@ class Graph:
             weight = float('inf')
             for selected_node in T:
                 temp = self.find_edge_to_new_nodes(W_numbers, selected_node)
-                if temp[1] < weight:
-                    edge = temp[0]
-                    weight = temp[1]
+                if temp[0] < weight:
+                    weight = temp[0]
+                    edge = temp[1]
 
             if edge[0] in W_numbers:
                 number=edge[0]
@@ -256,12 +265,12 @@ class Graph:
         weight = float('inf')
 
         for i in range(len(self.edges)):
-            if ( (self.edges[i].begin == selected_node.number) or (self.edges[i].end == selected_node.number) ) and (self.edges[i].end in W_numbers):
+            if (( (self.edges[i].begin == selected_node.number) and (self.edges[i].end in W_numbers) ) or ((self.edges[i].end == selected_node.number) and (self.edges[i].begin in W_numbers) )):
                 if  weight >self.weight[i]:
                     weight = self.weight[i]
                     edge = [self.edges[i].begin, self.edges[i].end]
 
-        return edge, weight
+        return weight, edge 
 
     def find_node_using_number(self,number):
         for node in self.nodes:
