@@ -392,6 +392,8 @@ class Graph:
     def johnson(self):
         g_, begin = self.add_S()
         bell_dist = g_.bellman_ford(begin.number)
+        if not bell_dist:
+            return False
         p = [0] * len(self.nodes)
         for node in g_.nodes:
             for neighbour in node.neighbours:
