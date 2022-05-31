@@ -38,8 +38,8 @@ def task2():
     draw_graph(adj_list)
 
 def task3():
-    adj_list = generate_with_edge_count(10, 15)
+    adj_list = generate_with_edge_count(10, 46)
     draw_graph(adj_list)
 
-    adj_list = generate_with_probability(10, 0.4)
+    adj_list = generate_with_probability(9, 0.5)
     draw_graph(adj_list)

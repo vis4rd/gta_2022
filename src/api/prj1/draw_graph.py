@@ -1,6 +1,7 @@
 # Rysowanie grafu
 import networkx as nx
 import matplotlib.pyplot as plt
+import logging as log
 
 # rotation operation on array:
 # _rotate_array([1, 2, 3, 4, 5], 2, 5) = [3, 4, 5, 1, 2]
@@ -34,6 +35,7 @@ def draw_graph(matrix):
     # nx.draw(graph, pos=nx.circular_layout(G=graph, dim=2))
     # nx.draw_circular(G=graph, with_labels=True, arrowstyle="-")
     
+    log.disable(log.DEBUG)
     graph = nx.DiGraph()
     graph.add_nodes_from(nodes)
     graph.add_edges_from(edges)

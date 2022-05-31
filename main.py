@@ -1,15 +1,28 @@
 import logging as log
+import sys
 from os import mkdir
 
 import src.exercises.project1 as prj1
+import src.exercises.project2 as prj2
 
 def main():
-    prj1.task1()
+    args = sys.argv[1:]
+    prepare(args[0] if len(args) > 0 else "info")
+
+    # prj1.task1()
     # prj1.task2()
     # prj1.task3()
 
+    # prj2.task1()
+    # prj2.task2()
+    # prj2.task3()
+    # prj2.task4()
+    # prj2.task5()
+    prj2.task6()
 
-def prepare():
+
+
+def prepare(loglevel):
     # create logs directory if does not exist already
     try:
         mkdir('logs')
@@ -26,9 +39,8 @@ def prepare():
         encoding='utf-8',
         format='%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s | %(funcName)s() | %(message)s',
         datefmt='%Y/%m/%d | %H:%M:%S',
-        level='INFO')
+        level=loglevel.upper())
     log.info("Logger setup finished")
 
 if __name__ == "__main__":
-    prepare()
     main()
