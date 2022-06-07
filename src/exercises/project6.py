@@ -49,7 +49,7 @@ def display_pagerank(rank):
         print(f"{number_to_alpha(node)} ==> PageRank = {score:.6f}")
 
 
-with open("src/exercises/input1.txt", "r") as f:
+with open("src/exercises/input.dat", "r") as f:
     alpha_list_2 = f.read()
 
 

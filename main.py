@@ -31,7 +31,7 @@ def main():
 
     # prj4.prj_4()
 
-    # prj6.example01a()
+    prj6.example01a()
     # prj6.example01b()
     # prj6.example02inputdata()
     # prj6.example02random2Dgraph()
