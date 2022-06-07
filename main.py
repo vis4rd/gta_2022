@@ -5,6 +5,7 @@ from os import mkdir
 import src.exercises.project1 as prj1
 import src.exercises.project2 as prj2
 import src.exercises.project3 as prj3
+import src.exercises.project4 as prj4
 
 
 def main():
@@ -22,10 +23,12 @@ def main():
     # prj2.task5()
     # prj2.task6()
 
-    prj3.task1_2()
-    prj3.task3()
-    prj3.task4()
-    prj3.task5()
+    # prj3.task1_2()
+    # prj3.task3()
+    # prj3.task4()
+    # prj3.task5()
+
+    prj4.prj_4()
 
 
 def prepare(loglevel):
