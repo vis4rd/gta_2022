@@ -28,7 +28,7 @@ def main():
     # prj3.task4()
     # prj3.task5()
 
-    prj4.proj_4()
+    prj4.prj_4()
 
 
 def prepare(loglevel):
