@@ -6,6 +6,7 @@ import src.exercises.project1 as prj1
 import src.exercises.project2 as prj2
 import src.exercises.project3 as prj3
 import src.exercises.project4 as prj4
+import src.exercises.project6 as prj6
 
 
 def main():
@@ -28,7 +29,12 @@ def main():
     # prj3.task4()
     # prj3.task5()
 
-    prj4.prj_4()
+    # prj4.prj_4()
+
+    prj6.example01a()
+    # prj6.example01b()
+    # prj6.example02inputdata()
+    # prj6.example02random2Dgraph()
 
 
 def prepare(loglevel):
